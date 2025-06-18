@@ -1,16 +1,23 @@
 {
- "version": 2,
- "builds": [
-  {
-   "src": "src/server.js",
-   "use": "@vercel/node",
-   "config": { "includeFiles": ["dist/**", "node_modules/mysql2/**"] }
-  }
- ],
- "routes": [
-  {
-   "src": "/(.*)",
-   "dest": "src/server.js"
-  }
- ]
+  "version": 2,
+  "builds": [
+    {
+      "src": "src/server.js",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": [
+          "node_modules/mysql2/**",
+          "node_modules/sequelize/**",
+          "src/models/**",
+          "config/**"
+        ]
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "src/server.js"
+    }
+  ]
 }
