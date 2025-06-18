@@ -17,7 +17,6 @@ app.use((err, req, res, next) => {
     message: err.message || 'Terjadi kesalahan pada server',
     ...(process.env.NODE_ENV !== 'production' && { stack: err.stack }),
   });
-
 });
 
 module.exports = app;

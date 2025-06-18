@@ -15,7 +15,7 @@ module.exports =  {
     dialect: dbDialect,
   },
   server: {
-    baseUrl: process.env.SERVER_BASE_URL || "http://localhost:5001",
+    baseUrl: process.env.SERVER_BASE_URL,
     port: parseInt(process.env.SERVER_PORT) || 5001,
   },
   jwt: {
