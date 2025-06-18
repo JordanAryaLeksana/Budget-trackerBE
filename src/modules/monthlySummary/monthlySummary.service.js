@@ -1,5 +1,5 @@
 const config = require('../../config/config');
-const { MonthlySummary, Transaction,User } = require('../../../models');
+const { MonthlySummary, Transaction, User } = require('../../../models');
 const NotFound = require('../../errors/NotFoundError');
 const { Op } = require('sequelize');
 const BadRequestError = require('../../errors/BadRequestError');
@@ -41,8 +41,8 @@ class MonthlySummaryService {
         const startOfMonth = new Date(year, date.getMonth(), 1);
         const endOfMonth = new Date(year, date.getMonth() + 1, 0);
 
-        const startDay = new Date(date.getFullYear(), date.getMonth(), date.getDate, 0, 0, 0, 0);
-        const endDay = new Date(date.getFullYear(), date.getMonth(), date.getDate, 23, 59, 59, 999);
+        const startDay = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0);
+        const endDay = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59, 999);
 
         const exitingSummary = await MonthlySummary.findOne({
             where: {
@@ -55,12 +55,12 @@ class MonthlySummaryService {
             }
         })
 
-        if( exitingSummary ) {
+        if (exitingSummary) {
             throw new BadRequestError('Summary Bulanan Sudah Ada Untuk Bulan Ini!');
         }
 
         const transaction = await Transaction.findAll({
-            where:{
+            where: {
                 user_id: userId,
                 date: {
                     [Op.between]: [startOfMonth, endOfMonth]
@@ -70,7 +70,7 @@ class MonthlySummaryService {
         })
         const user = await User.findByPk(userId);
 
-        if( !user ) {
+        if (!user) {
             throw new NotFound('User Tidak ditemukan!');
         }
 
@@ -91,12 +91,12 @@ class MonthlySummaryService {
                 category: tx.category?.name || 'lainnya',
                 amount,
                 date: tx.date.toISOString().split('T')[0],
-    
+
             }
         })
 
         const payload = {
-            user : user.name,
+            user: user.name,
             month: `${month} ${year}`,
             transaction: formattedTransactions,
             total_income: totalIncome,
@@ -104,9 +104,9 @@ class MonthlySummaryService {
         }
 
 
-        const body ={
+        const body = {
             model: 'meta-llama/llama-3.3-8b-instruct:free',
-            messages:[
+            messages: [
                 {
                     role: 'system',
                     content: `Posisikan Dirimu sebagai asisten keuangan pribadi dan buat ringkasan keuangan dari data JSON berikut,
@@ -115,10 +115,8 @@ class MonthlySummaryService {
                         "summary" : "string",
                         "recommendations": ["string", "string", "...],
                         "trend_analysis": "string",
-                        
                     }
                     Gunakan bahasa Indonesia untuk isinya, jangan ubah nama key apapun, dan jangan tambahkan \`\`\` json. 
-
                     `
                 },
                 {
@@ -145,8 +143,8 @@ class MonthlySummaryService {
                     },
                     body: JSON.stringify(body)
                 })
-                if(response.status !== 429) break;
-                
+                if (response.status !== 429) break;
+
                 await delay(3000);
                 retries--;
             } catch (error) {
@@ -155,29 +153,29 @@ class MonthlySummaryService {
                 await delay(1000);
             }
         }
-        if(!response.ok){
+        if (!response.ok) {
             throw new BadRequestError("Terjadi kesalahan, Harap coba lagi nanti!");
         }
 
-        const result = await response.json();   
+        const result = await response.json();
         const content = result.choices?.[0]?.message?.content;
 
         let parsed
         try {
             const cleanedContent = content.replace(/```json\s*|\s*```/g, '').trim();
             parsed = JSON.parse(cleanedContent);
-            if(!parsed.summary || !parsed.recommendations || !parsed.trend_analysis) {
+            if (!parsed.summary || !parsed.recommendations || !parsed.trend_analysis) {
                 throw new BadRequestError('Format JSON tidak sesuai, pastikan memiliki key "summary", "recommendations", dan "trend_analysis"');
             }
         } catch (error) {
-            throw new BadRequestError(error,'Gagal memparsing hasil AI, pastikan format JSON valid!');
+            throw new BadRequestError(error, 'Gagal memparsing hasil AI, pastikan format JSON valid!');
         }
 
 
         const summary = await MonthlySummary.create({
             user_id: userId,
             month,
-            year : String(year),
+            year: String(year),
             total_income: totalIncome,
             total_expense: totalExpense,
             balance: String(totalIncome - totalExpense),
@@ -185,7 +183,9 @@ class MonthlySummaryService {
             ai_recomendation: [...parsed.recommendations, parsed.trend_analysis].join('\n'),
             ai_trend_analysis: parsed.trend_analysis
         })
-
+        if (!summary) {
+            throw new BadRequestError('Gagal membuat ringkasan bulanan!', 400);
+        }
         return {
             summary: parsed.summary,
             trend_analysis: parsed.trend_analysis,
