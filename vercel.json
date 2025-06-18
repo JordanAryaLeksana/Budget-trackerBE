@@ -4,7 +4,7 @@
   {
    "src": "src/server.js",
    "use": "@vercel/node",
-   "config": { "includeFiles": ["dist/**"] }
+   "config": { "includeFiles": ["dist/**", "node_modules/mysql2/**"] }
   }
  ],
  "routes": [
