@@ -5,7 +5,7 @@ function authJWT(req, res, next) {
     const authHeader = req.headers.authorization;
 
     if(!authHeader || !authHeader.startsWith('Bearer ')) {
-        throw new UnauthorizedError("Token Tidak Di temukan!");
+        return next(new UnauthorizedError("Token Tidak Ditemukan!"));
     }
     // 0 [1]
     // Bearer {token}
@@ -16,6 +16,10 @@ function authJWT(req, res, next) {
 
     try {
         const decoded = JwtService.verify(token);
+        if (!decoded || !decoded.id) {
+            throw new UnauthorizedError("Token ini sudah tidak valid atau kadaluarsa");
+        }
+        console.log("Decoded JWT:", decoded);
         req.user = decoded;
         req.userId = decoded.id;
         next();
