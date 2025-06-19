@@ -3,7 +3,7 @@
     "username": "root",
     "password": "",
     "database": "budget-tracker_database",
-    "host": "127.0.0.1",
+    "host": "0.0.0.0",
     "port": 3306,
     "dialect": "mysql"
   },
@@ -11,16 +11,16 @@
     "username": "root",
     "password": "",
     "database": "budget-tracker_test",
-    "host": "127.0.0.1",
+    "host": "0.0.0.0",
     "port": 3306,
     "dialect": "mysql"
   },
   "production": {
     "username": "root",
     "password": "fQhrHbqslMjSfbwAQfItskNpMgnLdPmw",
-    "database": "budget-tracker_prod",
-    "host": "mysql-production-12bb.up.railway.app",
-    "port": 3306,
+    "database": "railway",
+    "host": "yamabiko.proxy.rlwy.net",
+    "port": 47159,
     "dialect": "mysql"
   }
 }

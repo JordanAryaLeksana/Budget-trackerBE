@@ -5,6 +5,7 @@ dotenv.config({
 
 const dbDialect = "mysql";
 
+
 module.exports =  {
   db: {
     username: process.env.DB_USER,
