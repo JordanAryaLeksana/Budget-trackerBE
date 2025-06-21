@@ -1,9 +1,7 @@
 const app = require('./app');
 const config = require('./config/config');
-
+const serverless = require('serverless-http');
 const PORT = config.server.port || 5001;
 
-app.listen(PORT, () => {
-  console.log(`Server running on ${config.server.baseUrl}`);
-});
+module.exports = serverless(app)
 
