@@ -13,12 +13,6 @@ module.exports = {
     host: process.env.DB_HOST,
     port: parseInt(process.env.DB_PORT) || 5432,
     dialect: dbDialect,
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false,
-      },
-    },
   },
   server: {
     baseUrl: process.env.SERVER_BASE_URL,
