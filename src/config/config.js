@@ -3,7 +3,7 @@ dotenv.config({
   path: process.env.DOTENV_PATH || ".env",
 });
 
-const dbDialect = "postgres"; // Default to PostgreSQL
+const dbDialect = "postgres"; // Default to PostgreSQLj
 
 module.exports = {
   db: {
