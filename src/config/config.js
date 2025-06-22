@@ -4,6 +4,7 @@ dotenv.config({
 });
 
 const dbDialect = "postgres";
+
 module.exports = {
   db: {
     username: process.env.DB_USER,
