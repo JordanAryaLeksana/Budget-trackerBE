@@ -5,8 +5,7 @@ dotenv.config({
 
 const dbDialect = "mysql";
 
-
-module.exports =  {
+module.exports = {
   db: {
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
@@ -14,6 +13,12 @@ module.exports =  {
     host: process.env.DB_HOST,
     port: parseInt(process.env.DB_PORT) || 3306,
     dialect: dbDialect,
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
   },
   server: {
     baseUrl: process.env.SERVER_BASE_URL,
