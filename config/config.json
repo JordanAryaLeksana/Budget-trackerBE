@@ -19,8 +19,8 @@
     "username": "root",
     "password": "fQhrHbqslMjSfbwAQfItskNpMgnLdPmw",
     "database": "railway",
-    "host": "yamabiko.proxy.rlwy.net",
-    "port": 47159,
+    "host": "mysql-production-12bb.up.railway.app",
+    "port": 3306,
     "dialect": "mysql"
   }
 }
