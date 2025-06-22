@@ -9,6 +9,12 @@ app.use(express.json());
 app.use(enableCORS);
 app.use(setSecurityHeaders);
 app.use('/api/v1', routes);
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Welcome to the API',
+  });
+});
 app.use(errorHandler)
 app.use((err, req, res, next) => {
   const status = err.status || 500;
