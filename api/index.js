@@ -1,3 +1,4 @@
 const app = require('../src/app');
+const serverless = require('@codegenie/serverless-express');
 
-module.exports = app;
+module.exports = serverless.configure({ app });

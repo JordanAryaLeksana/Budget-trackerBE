@@ -3,7 +3,7 @@ dotenv.config({
   path: process.env.DOTENV_PATH || ".env",
 });
 
-const dbDialect = "postgres"; // Default to PostgreSQLj
+const dbDialect = "postgres"; 
 
 module.exports = {
   db: {
@@ -13,6 +13,7 @@ module.exports = {
     host: process.env.DB_HOST,
     port: parseInt(process.env.DB_PORT) || 5432,
     dialect: dbDialect,
+    dialectModule: require("pg"), 
   },
   server: {
     baseUrl: process.env.SERVER_BASE_URL,

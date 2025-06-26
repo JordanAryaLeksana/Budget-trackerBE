@@ -5,8 +5,12 @@ const sequelize = new Sequelize(config.db.database, config.db.username, config.d
   host: config.db.host,
   port: config.db.port,
   dialect: config.db.dialect,
-  dialectModule: require("pg"), 
-  
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false, 
+    },
+  },
 });
 
 try {

@@ -19,8 +19,8 @@
     "username": "postgres",
     "password": "jordanaryaleksana",
     "database": "postgres",
-    "host": "db.ffsmcggjvlvqctmgedqc.supabase.co",
-    "port": 5432,
+    "host": "aws-0-ap-southeast-1.pooler.supabase.com",
+    "port": 6543,
     "dialect": "postgres"
   }
 }
